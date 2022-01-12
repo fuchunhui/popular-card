@@ -5,6 +5,7 @@ import {getRandomImage} from '../db/data';
 import {FillText, Story} from '../types';
 import {fillText} from '../utils/canvas';
 import {download} from '../utils/download';
+import {BLOG_URL} from '../config/index';
 
 const cardCanvas = ref<HTMLCanvasElement | null>(null);
 const canvasRef = ref<HTMLCanvasElement | null>(null);
@@ -51,8 +52,7 @@ const save = () => {
   download(canvas, 'png', `福虎生威_${suffix}`);
 };
 const encourage = () => {
-  const url = 'https://juejin.cn/post/7047529302140649486'; // TODO 换地址
-  window.open(url);
+  window.open(BLOG_URL);
 };
 
 const setData = () => {

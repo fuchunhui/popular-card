@@ -1,16 +1,17 @@
 <script setup lang="ts">
+import {BLOG_URL} from '../config/index';
 </script>
 
 <template>
   <div class="color-wrap">
     <div class="logo">
-      <a href="https://juejin.cn/column/7047522560166068254">this is a title</a>
+      <a :href="BLOG_URL" target="_blank">this is a title</a>
     </div>
     <div class="color-wrap-content">
       <p>这是什么？</p>
     </div>
     <div class="color-wrap-footer">
-      详细内容 <a href="https://juejin.cn/post/7047529302140649486">未来文章标题</a>
+      详细内容 <a :href="BLOG_URL" target="_blank">未来文章标题</a>
     </div>
   </div>
 </template>
