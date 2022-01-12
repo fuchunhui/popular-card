@@ -12,7 +12,7 @@ import Card from './pages/Card.vue';
 
 <style lang="less">
 @import url('src/assets/css/mixins.less');
-@width: 400px;
+@width: 40%;
 @height: 150px;
 
 #app {
@@ -21,10 +21,11 @@ import Card from './pages/Card.vue';
   color: #2C3E50F3;
   background: #EBEDF3;
   .container {
-    margin: 0 auto;
     width: calc(100% - @width);
     height: 100%;
+    margin: 0 auto;
     padding: 10px;
+    overflow: auto;
   }
   .color-wrap {
     height: @height;

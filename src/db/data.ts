@@ -1,3 +1,4 @@
+import { Story } from '../types/image.js';
 import {
   getDataByColumn,
   getRandom,
@@ -44,7 +45,7 @@ const getRandomCommand = () => {
   };
 };
 
-const getRandomImage = (): Record<string, string | number | boolean> => {
+const getRandomImage = (): Story => {
   const {command, text, special} = getRandomCommand();
   
   if (special) {
@@ -62,9 +63,9 @@ const getRandomImage = (): Record<string, string | number | boolean> => {
 
   return {
     special,
-    text: text || '',
+    text,
     ...story // title, image, x, y, max, font, color, align, direction, blur
-  };
+  } as Story;
 };
 
 export {

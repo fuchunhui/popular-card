@@ -1,14 +1,46 @@
 <script setup lang="ts">
-import {ref, watch, computed, onMounted, provide} from 'vue';
+import {ref, onMounted} from 'vue';
 import {PopularButton} from '../components/common';
-// import '../db/index.ts';
 import {getRandomImage} from '../db/data';
+import {FillText, Story} from '../types';
+import {fillText} from '../utils/canvas';
 
-// const ele = document.getElementsByClassName('card') as HTMLElement;
-// const {width, height} = ele.getBoundingClientRect();
+const cardCanvas = ref<HTMLCanvasElement | null>(null);
+const canvasRef = ref<HTMLCanvasElement | null>(null);
+let width = 100;
+let height = 100;
 
-// 获取图片
-// 绘制 canvas 内容
+const img = new Image();
+
+const makeCanvas = (story: Story) => {
+  img.onload = async () => {
+    const canvas = canvasRef.value as HTMLCanvasElement;
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+
+    console.log(width, height);
+    // TODO 根据 width height naturalWidth naturalHeight 随机给出 canvas 的位置。
+    renderImage(story);
+  };
+
+  img.onerror = err => {
+    console.error(err);
+  };
+
+  img.src = story.image;
+};
+
+const renderImage = (story: Story) => {
+  const canvas = canvasRef.value as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+  
+  ctx.drawImage(img, 0, 0);
+
+  const {special, text} = story;
+  if (!special) {
+    fillText(ctx, canvas.width, text, story as FillText);
+  }
+};
 
 const refresh = () => {
   console.log('refresh');
@@ -20,10 +52,17 @@ const encourage = () => {
   console.log('encourage');
 };
 
+const setData = () => {
+  const {width: _width, height: _height} = cardCanvas.value.getBoundingClientRect();
+  width = _width;
+  height = _height;
+};
+
 onMounted(() => {
-  console.log('this is a card.');
+  setData();
+
   const story = getRandomImage();
-  console.log('----->', story);
+  makeCanvas(story);
 });
 </script>
 
@@ -31,13 +70,12 @@ onMounted(() => {
   <div class="card">
     <div class="card-btn">
       <div class="card-btn-left"/>
-      <popular-button u="primary" label="再来一次" @click="refresh"/>
+      <popular-button u="primary" label="再来一次？" @click="refresh"/>
       <popular-button u="primary" label="保存" @click="save"/>
-      <popular-button u="primary" label="感觉不错，去点个赞" @click="encourage"/>
+      <popular-button u="primary" label="感觉不错，去点个赞！" @click="encourage"/>
     </div>
-    <div class="card-canvas">
-      <canvas/>
-      123
+    <div class="card-canvas" ref="cardCanvas">
+      <canvas ref="canvasRef"/>
     </div>
   </div>  
 </template>
@@ -58,11 +96,13 @@ onMounted(() => {
     }
     .popular-button {
       margin-left: 10px;
+      font-size: 14px;
     }
   }
   &-canvas {
     width: 100%;
     height: calc(100% - @height);
+    min-height: 400px;
     background-color: cyan;
   }
 }
