@@ -1,7 +1,7 @@
 <template>
   <button
     :class="[
-      'polular-button',
+      'popular-button',
       {
         'disabled': disabled
       }]"
@@ -25,7 +25,7 @@ defineProps({
 </script>
 
 <style lang="less">
-.polular-button {
+.popular-button {
   min-width: 98px;
   height: 32px;
   background-color: #FFFFFF;
