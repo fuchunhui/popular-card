@@ -4,15 +4,13 @@
 <template>
   <div class="color-wrap">
     <div class="logo">
-      <a href="https://juejin.cn/column/7047522560166068254">Color Ring</a>
+      <a href="https://juejin.cn/column/7047522560166068254">this is a title</a>
     </div>
     <div class="color-wrap-content">
       <p>这是什么？</p>
-      <p>我想用自己的方式，讲讲色彩的世界，见识下神奇的颜色，把那些让人着迷的数学模型，结合丰富的色彩展示出来。</p>
-      <p>仅作为个人兴趣，不具有任何学术性，如果有任何瑕疵，请一定帮忙指出，非常感谢。</p>
     </div>
     <div class="color-wrap-footer">
-      更多介绍内容 <a href="https://juejin.cn/post/7047529302140649486">神奇的颜色</a>
+      详细内容 <a href="https://juejin.cn/post/7047529302140649486">未来文章标题</a>
     </div>
   </div>
 </template>
@@ -40,19 +38,11 @@
     height: 48px;
     line-height: 48px;
     padding: 0 15px;
-    background-image: url(/favicon.ico), none;
-    background-attachment: scroll;
-    background-color: transparent;
-    background-position: 0 6px;
-    background-repeat: no-repeat;
+    text-align: center;
     a {
       width: 220px;
       padding-left: 24px;
       font-size: 30px;
-      background-image: linear-gradient(135deg, red, yellow, green, blue, magenta);
-      background-clip:text;
-      -webkit-background-clip:text;
-      color: transparent;
     }
   }
 }

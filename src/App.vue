@@ -1,48 +1,36 @@
 <script setup lang="ts">
-import {ref, watch, computed, onMounted, provide} from 'vue';
-
-const leftWidth = 180;
-const sideWidth = `${leftWidth}px`;
-const paddingNum = 10;
-const padding = `${paddingNum}px`;
-
-const setRank = () => {
-  const ele = document.getElementById('app') as HTMLElement;
-  const {width, height} = ele.getBoundingClientRect();
-
-  provide('rank', {
-    width: width - leftWidth - 2 * paddingNum,
-    height: height - 2* paddingNum
-  });
-};
-
-onMounted(() => {
-  setRank();
-});
+import PopularWrap from './pages/PopularWrap.vue';
+import Card from './pages/Card.vue';
 </script>
 
 <template>
-  <div>
-    123
+  <div class="container">
+    <popular-wrap/>
+    <card/>
   </div>
 </template>
 
 <style lang="less">
 @import url('src/assets/css/mixins.less');
-@width: v-bind(sideWidth);
-@padding: v-bind(padding);
+@width: 400px;
+@height: 150px;
 
 #app {
   width: 100%;
   height: 100%;
-  display: flex;
   color: #2C3E50F3;
   background: #EBEDF3;
   .container {
-    flex: 1;
+    margin: 0 auto;
     width: calc(100% - @width);
     height: 100%;
-    padding: @padding;
+    padding: 10px;
+  }
+  .color-wrap {
+    height: @height;
+  }
+  .card {
+    height: calc(100% - @height);
   }
 }
 </style>
