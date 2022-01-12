@@ -1,9 +1,14 @@
 <script setup lang="ts">
-console.log('this is card.');
+import {ref, watch, computed, onMounted, provide} from 'vue';
 import {PopularButton} from '../components/common';
+// import '../db/index.ts';
+import {getRandomImage} from '../db/data';
 
 // const ele = document.getElementsByClassName('card') as HTMLElement;
 // const {width, height} = ele.getBoundingClientRect();
+
+// 获取图片
+// 绘制 canvas 内容
 
 const refresh = () => {
   console.log('refresh');
@@ -14,6 +19,12 @@ const save = () => {
 const encourage = () => {
   console.log('encourage');
 };
+
+onMounted(() => {
+  console.log('this is a card.');
+  const story = getRandomImage();
+  console.log('----->', story);
+});
 </script>
 
 <template>

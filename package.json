@@ -13,8 +13,9 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
-    "vue-router": "^4.0.12",
-    "vue": "^3.2.26"
+    "sql.js": "^1.6.2",
+    "vue": "^3.2.26",
+    "vue-router": "^4.0.12"
   },
   "devDependencies": {
     "@types/estree": "^0.0.50",
