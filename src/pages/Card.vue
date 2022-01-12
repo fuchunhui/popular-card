@@ -4,9 +4,11 @@ import {PopularButton} from '../components/common';
 import {getRandomImage} from '../db/data';
 import {FillText, Story} from '../types';
 import {fillText} from '../utils/canvas';
+import {download} from '../utils/download';
 
 const cardCanvas = ref<HTMLCanvasElement | null>(null);
 const canvasRef = ref<HTMLCanvasElement | null>(null);
+let canvas = document.createElement('canvas');
 let width = 100;
 let height = 100;
 
@@ -14,7 +16,7 @@ const img = new Image();
 
 const makeCanvas = (story: Story) => {
   img.onload = async () => {
-    const canvas = canvasRef.value as HTMLCanvasElement;
+    canvas = canvasRef.value as HTMLCanvasElement;
     canvas.width = img.naturalWidth;
     canvas.height = img.naturalHeight;
 
@@ -31,7 +33,6 @@ const makeCanvas = (story: Story) => {
 };
 
 const renderImage = (story: Story) => {
-  const canvas = canvasRef.value as HTMLCanvasElement;
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
   
   ctx.drawImage(img, 0, 0);
@@ -43,13 +44,15 @@ const renderImage = (story: Story) => {
 };
 
 const refresh = () => {
-  console.log('refresh');
+  setStory();
 };
 const save = () => {
-  console.log('save');
+  const suffix = new Date().getTime().toString().slice(-6);
+  download(canvas, 'png', `福虎生威_${suffix}`);
 };
 const encourage = () => {
-  console.log('encourage');
+  const url = 'https://juejin.cn/post/7047529302140649486'; // TODO 换地址
+  window.open(url);
 };
 
 const setData = () => {
@@ -58,11 +61,14 @@ const setData = () => {
   height = _height;
 };
 
-onMounted(() => {
-  setData();
-
+const setStory = () => {
   const story = getRandomImage();
   makeCanvas(story);
+};
+
+onMounted(() => {
+  setData();
+  setStory();
 });
 </script>
 
@@ -71,8 +77,9 @@ onMounted(() => {
     <div class="card-btn">
       <div class="card-btn-left"/>
       <popular-button u="primary" label="再来一次？" @click="refresh"/>
-      <popular-button u="primary" label="保存" @click="save"/>
+      <popular-button u="primary" label="保存，秀一下" @click="save"/>
       <popular-button u="primary" label="感觉不错，去点个赞！" @click="encourage"/>
+      <popular-button u="primary" label="垃圾，去吐槽" @click="encourage"/>
     </div>
     <div class="card-canvas" ref="cardCanvas">
       <canvas ref="canvasRef"/>
