@@ -73,7 +73,7 @@ const renderImage = (story: Story, x = 0, y = 0) => {
 
   const {special, text} = story;
   if (!special) {
-    fillText(ctx, canvas.width, text, story as FillText);
+    fillText(ctx, canvas.width, text || '', story as FillText);
   }
 };
 
@@ -179,6 +179,9 @@ const encourage = () => {
 };
 
 const setData = () => {
+  if (!cardCanvas.value) {
+    return;
+  }
   const {width: _width, height: _height} = cardCanvas.value.getBoundingClientRect();
   width = _width;
   height = _height;
@@ -199,10 +202,13 @@ const resetData = () => {
 };
 
 const watchLayer = () => {
+  if (!layerRef.value || !showLayer.value || !cardCanvas.value) {
+    return;
+  }
   setInterval(() => {
     const layer = document.getElementsByClassName('canvas-layer');
     if (showLayer.value && (layer.length !== 1)) {
-      cardCanvas.value.appendChild(layerRef.value);
+      (cardCanvas.value as HTMLCanvasElement).appendChild(layerRef.value as HTMLCanvasElement);
     }
   }, 300);
 };

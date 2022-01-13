@@ -12,6 +12,7 @@
     "commitlint": "node scripts/verify-commit.js"
   },
   "dependencies": {
+    "@types/sql.js": "^1.4.3",
     "axios": "^0.24.0",
     "sql.js": "^1.6.2",
     "vue": "^3.2.26",

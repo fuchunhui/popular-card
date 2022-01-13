@@ -1,4 +1,4 @@
-import { Story } from '../types/image.js';
+import {Story} from '../types/image.js';
 import {
   getDataByColumn,
   getRandom,
@@ -52,11 +52,11 @@ const getRandomImage = (): Story => {
     const {image} = getRandom(SPECIAL_TABLE, 'image');
     return {
       special,
-      image
+      image: image as string
     };
   }
 
-  const story = getDataByColumn(command || '', 'title');
+  const story = getDataByColumn((command as string) || '', 'title');
   delete story.id;
   delete story.mid;
   delete story.tid;

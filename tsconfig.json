@@ -13,7 +13,8 @@
     "useDefineForClassFields": false
   },
   "types": [
-    "node"
+    "node",
+    "sql.js"
   ],
   "paths": {
     "*": ["*", "src/*"],
