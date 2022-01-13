@@ -2,28 +2,42 @@
 import {ref, onMounted} from 'vue';
 import {PopularButton} from '../components/common';
 import {getRandomImage} from '../db/data';
-import {FillText, Story} from '../types';
+import {FillText, Story, Point} from '../types';
 import {fillText} from '../utils/canvas';
 import {download} from '../utils/download';
 import {BLOG_URL} from '../config/index';
 
 const cardCanvas = ref<HTMLCanvasElement | null>(null);
 const canvasRef = ref<HTMLCanvasElement | null>(null);
+const layerRef = ref<HTMLCanvasElement | null>(null);
 let canvas = document.createElement('canvas');
+let layerCanvas = document.createElement('canvas');
+
 let width = 100;
 let height = 100;
+const TARGET_PERCENT = 75;
 
 const img = new Image();
+
+let canDrag = false;
+let showLayer = ref(true);
+let point: Point = {
+  x: 0,
+  y: 0
+};
 
 const makeCanvas = (story: Story) => {
   img.onload = async () => {
     canvas = canvasRef.value as HTMLCanvasElement;
-    canvas.width = img.naturalWidth;
-    canvas.height = img.naturalHeight;
+    // canvas.width = img.naturalWidth;
+    // canvas.height = img.naturalHeight;
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
     console.log(width, height);
     // TODO 根据 width height naturalWidth naturalHeight 随机给出 canvas 的位置。
-    renderImage(story);
+    renderImage(story, ctx);
   };
 
   img.onerror = err => {
@@ -33,9 +47,16 @@ const makeCanvas = (story: Story) => {
   img.src = story.image;
 };
 
-const renderImage = (story: Story) => {
-  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-  
+const makeLayer = () => {
+  layerCanvas = layerRef.value as HTMLCanvasElement;
+  layerCanvas.width = width;
+  layerCanvas.height = height;
+  const ctx = layerCanvas.getContext('2d') as CanvasRenderingContext2D;
+  renderLayer(ctx);
+  showLayer.value = true;
+};
+
+const renderImage = (story: Story, ctx: CanvasRenderingContext2D) => {
   ctx.drawImage(img, 0, 0);
 
   const {special, text} = story;
@@ -44,8 +65,97 @@ const renderImage = (story: Story) => {
   }
 };
 
+const renderLayer = (ctx: CanvasRenderingContext2D) => {
+  ctx.save();
+  ctx.fillStyle = '#ddd';
+  ctx.fillRect(0, 0, width, height);
+  ctx.restore();
+};
+
+const mousedown = (event: MouseEvent | TouchEvent) => {
+  canDrag = true;
+  point = getPoint(event, layerCanvas);
+};
+const mousemove = (event: MouseEvent | TouchEvent) => {
+  if (!canDrag) {
+    return;
+  }
+
+  const ctx = layerCanvas.getContext('2d') as CanvasRenderingContext2D;
+  const current = getPoint(event, layerCanvas);
+  const dist = Math.sqrt(Math.pow(current.x - point.x, 2) + Math.pow(current.y - point.y, 2));
+  const angle = Math.atan2(current.x - point.x, current.y - point.y);
+
+  let x = 0;
+  let y = 0;
+
+  for (let i = 0; i < dist; i++) {
+    x = point.x + Math.sin(angle) * i;
+    y = point.y + Math.cos(angle) * i;
+    ctx.globalCompositeOperation = 'destination-out';
+    
+    ctx.beginPath();
+    ctx.fillStyle = '#fff';
+    ctx.arc(x, y, 20, 0, Math.PI * 2, true);
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  point = current;
+  hiddlePercent();
+};
+const mouseup = () => {
+  canDrag = false;
+};
+
+const getPoint = (event: MouseEvent | TouchEvent, canvas: HTMLCanvasElement): Point => {
+  let offsetX = 0;
+  let offsetY = 0;
+  if (canvas.offsetParent !== undefined) {
+    do {
+      offsetX += canvas.offsetLeft;
+      offsetY += canvas.offsetTop;
+    } while ((canvas = canvas.offsetParent as HTMLCanvasElement));
+  }
+
+  let px = 0;
+  let py = 0;
+  if (/Android|webOS|iPhone|iPod|iPad|BlackBerry|SymbianOS/.test(navigator.userAgent)) {
+    px = (event as TouchEvent).touches[0].clientX;
+    py = (event as TouchEvent).touches[0].clientY;
+  } else {
+    px = (event as MouseEvent).pageX;
+    py = (event as MouseEvent).pageY;
+  }
+
+  return {
+    x: px - offsetX,
+    y: py - offsetY
+  };
+};
+
+const hiddlePercent = () => {
+  const ctx = layerCanvas.getContext('2d') as CanvasRenderingContext2D;
+  const imageData = ctx.getImageData(0, 0, width, height);
+  const pdata = imageData.data;
+  const step = 16;
+  let count = 0;
+  for (let i = 0; i < pdata.length; i += step) {
+    if (parseInt(pdata[i].toString()) === 0) {
+      count++;
+    }
+  }
+
+  const percent = Math.round((count * step / pdata.length) * 100);
+  if (percent > TARGET_PERCENT) {
+    showLayer.value = false;
+  }
+};
+
 const refresh = () => {
+  resetData();
   setStory();
+  makeLayer();
 };
 const save = () => {
   const suffix = new Date().getTime().toString().slice(-6);
@@ -66,9 +176,29 @@ const setStory = () => {
   makeCanvas(story);
 };
 
+const resetData = () => {
+  canDrag = false;
+  showLayer.value = true;
+  point = {
+    x: 0,
+    y: 0
+  };
+};
+
+const watchLayer = () => {
+  setInterval(() => {
+    const layer = document.getElementsByClassName('canvas-layer');
+    if (showLayer.value && (layer.length !== 1)) {
+      cardCanvas.value.appendChild(layerRef.value);
+    }
+  }, 300);
+};
+
 onMounted(() => {
   setData();
   setStory();
+  makeLayer();
+  watchLayer();
 });
 </script>
 
@@ -83,6 +213,17 @@ onMounted(() => {
     </div>
     <div class="card-canvas" ref="cardCanvas">
       <canvas ref="canvasRef"/>
+      <canvas
+        v-show="showLayer"
+        ref="layerRef"
+        class="canvas-layer"
+        @mousedown="mousedown"
+        @mousemove="mousemove"
+        @mouseup="mouseup"
+        @touchstart="mousedown"
+        @touchmove="mousemove"
+        @touchend="mouseup"
+      />
     </div>
   </div>  
 </template>
@@ -107,10 +248,16 @@ onMounted(() => {
     }
   }
   &-canvas {
+    position: relative;
     width: 100%;
     height: calc(100% - @height);
     min-height: 400px;
-    background-color: cyan;
+    cursor: pointer;
+  }
+  .canvas-layer {
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 }
 </style>

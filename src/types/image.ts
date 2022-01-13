@@ -23,3 +23,8 @@ export interface FillText {
   direction: string;
   blur: number;
 }
+
+export interface Point {
+  x: number;
+  y: number;
+}
