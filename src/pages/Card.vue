@@ -5,7 +5,7 @@ import {getRandomImage} from '../db/data';
 import {FillText, Story, Point} from '../types';
 import {fillText} from '../utils/canvas';
 import {download} from '../utils/download';
-import {BLOG_URL} from '../config/index';
+import {BLOG_URL, TOP_IMAGE} from '../config/index';
 
 const cardCanvas = ref<HTMLCanvasElement | null>(null);
 const canvasRef = ref<HTMLCanvasElement | null>(null);
@@ -79,7 +79,6 @@ const renderImage = (story: Story, x = 0, y = 0) => {
 
 const renderLayer = (ctx: CanvasRenderingContext2D) => {
   ctx.save();
-  // ctx.fillStyle = '#ddd';
   ctx.fillStyle = '#d9c58e';
   ctx.fillRect(0, 0, width, height);
   ctx.restore();
@@ -188,7 +187,17 @@ const setData = () => {
 };
 
 const setStory = () => {
-  const story = getRandomImage();
+  const percent = Math.floor(Math.random() * 100);
+  let story: Story = null;
+  if (percent < 20) {
+    story = {
+      special: true,
+      image: TOP_IMAGE
+    };
+  } else {
+    story = getRandomImage();
+  }
+  
   makeCanvas(story);
 };
 

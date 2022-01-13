@@ -5,9 +5,7 @@ export const TEXT_TABLE = 'TEXT';
 export const SPECIAL_TABLE = 'SPECIAL';
 export const MYSTERY_TABLE = 'MYSTERY';
 
-// const getPath = import.meta.env.VITE_SQL_DOMAIN;
-const getPath = './db/';
-
+const getPath = './db/'; // import.meta.env.VITE_SQL_DOMAIN
 const DB_PATH = './db/popular.db';
 
 const SQL = await initSqlJs({
