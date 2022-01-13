@@ -5,11 +5,12 @@ export const TEXT_TABLE = 'TEXT';
 export const SPECIAL_TABLE = 'SPECIAL';
 export const MYSTERY_TABLE = 'MYSTERY';
 
-const DB_PATH = './public/db/popular.db';
+const getPath = import.meta.env.VITE_SQL_DOMAIN;
+
+const DB_PATH = './db/popular.db';
 
 const SQL = await initSqlJs({
-  // locateFile: (file: string) => `./public/db/${file}`
-  locateFile: (file: string) => `https://sql.js.org/dist/${file}`
+  locateFile: (file: string) => `${getPath}${file}`
 });
 const buffer: any = await fetch(DB_PATH).then(res => res.arrayBuffer());
 const db = new SQL.Database(new Uint8Array(buffer));
