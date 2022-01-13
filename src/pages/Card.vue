@@ -79,7 +79,8 @@ const renderImage = (story: Story, x = 0, y = 0) => {
 
 const renderLayer = (ctx: CanvasRenderingContext2D) => {
   ctx.save();
-  ctx.fillStyle = '#ddd';
+  // ctx.fillStyle = '#ddd';
+  ctx.fillStyle = '#d9c58e';
   ctx.fillRect(0, 0, width, height);
   ctx.restore();
 };
@@ -257,6 +258,10 @@ onMounted(() => {
     .popular-button {
       margin-left: 10px;
       font-size: 14px;
+      &[u~="primary"] {
+        background-color: #f4f2e7;
+        color: #ec0e2b;
+      }
     }
   }
   &-canvas {

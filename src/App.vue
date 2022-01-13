@@ -18,8 +18,8 @@ import Card from './pages/Card.vue';
 #app {
   width: 100%;
   height: 100%;
-  color: #2C3E50F3;
-  background: #EBEDF3;
+  color: #d9c58e;
+  background: #f51d2a;
   .container {
     width: calc(100% - @width);
     height: 100%;
