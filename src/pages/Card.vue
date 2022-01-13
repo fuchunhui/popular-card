@@ -74,8 +74,8 @@ const renderImage = (story: Story, x = 0, y = 0) => {
   const {special, text} = story;
   if (!special) {
     const options = {...story};
-    options.x += x;
-    options.y += y;
+    options.x = (options.x as number) + x;
+    options.y = (options.y as number) + y;
     fillText(ctx, canvas.width, text || '', options as FillText);
   }
 };
@@ -191,7 +191,7 @@ const setData = () => {
 
 const setStory = () => {
   const percent = Math.floor(Math.random() * 100);
-  let story: Story = null;
+  let story: Story = {special: true, image: ''};
   if (percent < 20) {
     story = {
       special: true,
