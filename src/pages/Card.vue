@@ -29,15 +29,26 @@ let point: Point = {
 const makeCanvas = (story: Story) => {
   img.onload = async () => {
     canvas = canvasRef.value as HTMLCanvasElement;
-    // canvas.width = img.naturalWidth;
-    // canvas.height = img.naturalHeight;
     canvas.width = width;
     canvas.height = height;
-    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-    console.log(width, height);
-    // TODO 根据 width height naturalWidth naturalHeight 随机给出 canvas 的位置。
-    renderImage(story, ctx);
+    let rw = img.naturalWidth;
+    let rh = img.naturalHeight;
+    if (rw > width) {
+      rw = width;
+      rh = width * img.naturalHeight / img.naturalWidth;
+    }
+    if (rh > height) {
+      rh = height;
+      rw = height * img.naturalWidth / img.naturalHeight;
+    }
+
+    const offsetX = width - rw;
+    const offsetY = height - rh;
+    const x = Math.floor(Math.random() * offsetX);
+    const y = Math.floor(Math.random() * offsetY);
+
+    renderImage(story, x, y);
   };
 
   img.onerror = err => {
@@ -56,8 +67,9 @@ const makeLayer = () => {
   showLayer.value = true;
 };
 
-const renderImage = (story: Story, ctx: CanvasRenderingContext2D) => {
-  ctx.drawImage(img, 0, 0);
+const renderImage = (story: Story, x = 0, y = 0) => {
+  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+  ctx.drawImage(img, x, y);
 
   const {special, text} = story;
   if (!special) {
@@ -251,6 +263,7 @@ onMounted(() => {
     position: relative;
     width: 100%;
     height: calc(100% - @height);
+    min-width: 400px;
     min-height: 400px;
     cursor: pointer;
   }
