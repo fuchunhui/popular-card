@@ -73,7 +73,10 @@ const renderImage = (story: Story, x = 0, y = 0) => {
 
   const {special, text} = story;
   if (!special) {
-    fillText(ctx, canvas.width, text || '', story as FillText);
+    const options = {...story};
+    options.x += x;
+    options.y += y;
+    fillText(ctx, canvas.width, text || '', options as FillText);
   }
 };
 
