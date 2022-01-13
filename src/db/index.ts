@@ -5,7 +5,8 @@ export const TEXT_TABLE = 'TEXT';
 export const SPECIAL_TABLE = 'SPECIAL';
 export const MYSTERY_TABLE = 'MYSTERY';
 
-const getPath = import.meta.env.VITE_SQL_DOMAIN;
+// const getPath = import.meta.env.VITE_SQL_DOMAIN;
+const getPath = './db/';
 
 const DB_PATH = './db/popular.db';
 
