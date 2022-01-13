@@ -8,7 +8,8 @@ export const MYSTERY_TABLE = 'MYSTERY';
 const DB_PATH = './public/db/popular.db';
 
 const SQL = await initSqlJs({
-  locateFile: (file: string) => `./public/db/${file}`
+  // locateFile: (file: string) => `./public/db/${file}`
+  locateFile: (file: string) => `https://sql.js.org/dist/${file}`
 });
 const buffer: any = await fetch(DB_PATH).then(res => res.arrayBuffer());
 const db = new SQL.Database(new Uint8Array(buffer));
