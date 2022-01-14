@@ -37,7 +37,7 @@ import {BLOG_URL} from '../config/index';
       width: 220px;
       padding-left: 24px;
       font-size: 30px;
-      color: #f4f4e6;
+      color: #F4F4E6;
     }
   }
 }

@@ -78,14 +78,19 @@ const renderImage = (story: Story, x = 0, y = 0, width = 0, height = 0) => {
     const options = {...story};
     options.x = (options.x as number) + x;
     options.y = (options.y as number) + y;
-    fillText(ctx, canvas.width, text || '', options as FillText);
+    fillText(ctx, width, text || '', options as FillText);
   }
 };
 
 const renderLayer = (ctx: CanvasRenderingContext2D) => {
   ctx.save();
-  ctx.fillStyle = '#d9c58e';
+  ctx.fillStyle = '#D9C58E';
   ctx.fillRect(0, 0, width, height);
+  ctx.font = '48px sans-serif';
+  ctx.fillStyle = '#f3f2e3';
+  ctx.textAlign = 'center';
+  ctx.lineWidth = 50;
+  ctx.fillText('刮 我 中 表 情 包', width / 2, height / 2);
   ctx.restore();
 };
 
@@ -245,7 +250,7 @@ onMounted(() => {
     <div class="card-btn">
       <popular-button u="primary" label="垃圾" @click="comment"/>
       <popular-button u="primary" label="点赞" @click="encourage"/>
-      <popular-button u="primary" label="再来一次？" @click="refresh"/>
+      <popular-button u="primary" label="再来一次" @click="refresh"/>
       <popular-button u="primary" label="保存" @click="save"/>
     </div>
     <div class="card-canvas" ref="cardCanvas">
