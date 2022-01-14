@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import PopularWrap from './pages/PopularWrap.vue';
-// import Card from './pages/Card.vue';
+import Card from './pages/Card.vue';
 </script>
 
 <template>
   <div class="container">
     <popular-wrap/>
-    <!-- <card/> -->
+    <card/>
   </div>
 </template>
 
