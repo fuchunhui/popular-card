@@ -16,6 +16,7 @@ let layerCanvas = document.createElement('canvas');
 let width = 100;
 let height = 100;
 const TARGET_PERCENT = 70;
+let mobile = false;
 
 const img = new Image();
 
@@ -34,6 +35,7 @@ const makeCanvas = (story: Story) => {
 
     let rw = img.naturalWidth;
     let rh = img.naturalHeight;
+
     if (rw > width) {
       rw = width;
       rh = width * img.naturalHeight / img.naturalWidth;
@@ -45,10 +47,10 @@ const makeCanvas = (story: Story) => {
 
     const offsetX = width - rw;
     const offsetY = height - rh;
-    const x = Math.floor(Math.random() * offsetX);
-    const y = Math.floor(Math.random() * offsetY);
+    const x = Math.floor(mobile ? offsetX / 2 : Math.random() * offsetX);
+    const y = Math.floor(mobile ? offsetY / 2 : Math.random() * offsetY);
 
-    renderImage(story, x, y);
+    renderImage(story, x, y, rw, rh);
   };
 
   img.onerror = err => {
@@ -67,9 +69,9 @@ const makeLayer = () => {
   showLayer.value = true;
 };
 
-const renderImage = (story: Story, x = 0, y = 0) => {
+const renderImage = (story: Story, x = 0, y = 0, width = 0, height = 0) => {
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-  ctx.drawImage(img, x, y);
+  ctx.drawImage(img, x, y, width, height);
 
   const {special, text} = story;
   if (!special) {
@@ -135,7 +137,7 @@ const getPoint = (event: MouseEvent | TouchEvent, canvas: HTMLCanvasElement): Po
 
   let px = 0;
   let py = 0;
-  if (/Android|webOS|iPhone|iPod|iPad|BlackBerry|SymbianOS/.test(navigator.userAgent)) {
+  if (mobile) {
     px = (event as TouchEvent).touches[0].clientX;
     py = (event as TouchEvent).touches[0].clientY;
   } else {
@@ -184,6 +186,7 @@ const comment = () => {
 };
 
 const setData = () => {
+  mobile = /Android|webOS|iPhone|iPod|iPad|BlackBerry|SymbianOS/.test(navigator.userAgent);
   if (!cardCanvas.value) {
     return;
   }
@@ -195,7 +198,7 @@ const setData = () => {
 const setStory = () => {
   const percent = Math.floor(Math.random() * 100);
   let story: Story = {special: true, image: ''};
-  if (percent < 20) {
+  if (percent < 15) {
     story = {
       special: true,
       image: TOP_IMAGE
@@ -287,6 +290,7 @@ onMounted(() => {
     min-width: 200px;
     min-height: 200px;
     cursor: pointer;
+    user-select: none;
   }
   .canvas-layer {
     position: absolute;
