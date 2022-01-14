@@ -15,7 +15,7 @@ let layerCanvas = document.createElement('canvas');
 
 let width = 100;
 let height = 100;
-const TARGET_PERCENT = 70;
+const TARGET_PERCENT = 64;
 let mobile = false;
 
 const img = new Image();
