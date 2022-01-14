@@ -198,7 +198,7 @@ const setData = () => {
 const setStory = () => {
   const percent = Math.floor(Math.random() * 100);
   let story: Story = {special: true, image: ''};
-  if (percent < 15) {
+  if (percent < 10) {
     story = {
       special: true,
       image: TOP_IMAGE
