@@ -179,6 +179,9 @@ const save = () => {
 const encourage = () => {
   window.open(BLOG_URL);
 };
+const comment = () => {
+  window.open(`${BLOG_URL}#comment`);
+};
 
 const setData = () => {
   if (!cardCanvas.value) {
@@ -240,7 +243,7 @@ onMounted(() => {
       <popular-button u="primary" label="再来一次？" @click="refresh"/>
       <popular-button u="primary" label="保存，秀一下" @click="save"/>
       <popular-button u="primary" label="感觉不错，去点个赞！" @click="encourage"/>
-      <popular-button u="primary" label="垃圾，去吐槽" @click="encourage"/>
+      <popular-button u="primary" label="垃圾，去吐槽" @click="comment"/>
     </div>
     <div class="card-canvas" ref="cardCanvas">
       <canvas ref="canvasRef"/>
