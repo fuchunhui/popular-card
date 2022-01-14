@@ -26,7 +26,7 @@ defineProps({
 
 <style lang="less">
 .popular-button {
-  min-width: 98px;
+  min-width: 64px;
   height: 32px;
   background-color: #FFFFFF;
   border: 1px solid #D9D9D9;

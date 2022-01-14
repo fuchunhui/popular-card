@@ -5,13 +5,10 @@ import {BLOG_URL} from '../config/index';
 <template>
   <div class="color-wrap">
     <div class="logo">
-      <a :href="BLOG_URL" target="_blank">刮刮乐表情包大战</a>
+      <a :href="BLOG_URL" target="_blank">刮刮乐表情包大作战</a>
     </div>
     <div class="color-wrap-content">
       <p>这是什么？是惊喜还是意外，是 bug 还是彩蛋？让我们一起刮刮刮，好玩就去点个赞。</p>
-    </div>
-    <div class="color-wrap-footer">
-      详细内容 <a :href="BLOG_URL" target="_blank">未来文章标题</a>
     </div>
   </div>
 </template>
@@ -28,10 +25,6 @@ import {BLOG_URL} from '../config/index';
     p {
       line-height: 32px;
     }
-  }
-  &-footer {
-    margin-top: 10px;
-    font-size: 16px;
   }
 
   .logo {

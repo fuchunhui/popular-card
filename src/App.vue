@@ -12,8 +12,8 @@ import Card from './pages/Card.vue';
 
 <style lang="less">
 @import url('src/assets/css/mixins.less');
-@width: 40%;
-@height: 150px;
+@width: 0%;
+@height: 140px;
 
 #app {
   width: 100%;

@@ -239,11 +239,10 @@ onMounted(() => {
 <template>
   <div class="card">
     <div class="card-btn">
-      <div class="card-btn-left"/>
+      <popular-button u="primary" label="垃圾" @click="comment"/>
+      <popular-button u="primary" label="点赞" @click="encourage"/>
+      <popular-button u="primary" label="保存" @click="save"/>
       <popular-button u="primary" label="再来一次？" @click="refresh"/>
-      <popular-button u="primary" label="保存，秀一下" @click="save"/>
-      <popular-button u="primary" label="感觉不错，去点个赞！" @click="encourage"/>
-      <popular-button u="primary" label="垃圾，去吐槽" @click="comment"/>
     </div>
     <div class="card-canvas" ref="cardCanvas">
       <canvas ref="canvasRef"/>
@@ -263,20 +262,15 @@ onMounted(() => {
 </template>
 
 <style lang="less">
-@height: 50px;
+@height: 40px;
 
 .card {
   width: 100%;
   height: 100%;
   &-btn {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
     height: @height;
-    &-left {
-      flex: 1;
-    }
     .popular-button {
+      float: right;
       margin-left: 10px;
       font-size: 14px;
       &[u~="primary"] {
@@ -289,8 +283,8 @@ onMounted(() => {
     position: relative;
     width: 100%;
     height: calc(100% - @height);
-    min-width: 400px;
-    min-height: 400px;
+    min-width: 200px;
+    min-height: 200px;
     cursor: pointer;
   }
   .canvas-layer {
