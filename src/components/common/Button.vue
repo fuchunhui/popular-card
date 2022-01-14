@@ -37,11 +37,6 @@ defineProps({
   user-select: none;
   vertical-align: middle;
 
-  &:hover {
-    border-color: #4B98F8;
-    color: #4B98F8;
-  }
-
   &.disabled {
     &,
     &:hover {
@@ -56,10 +51,6 @@ defineProps({
     background-color: #4B98F8;
     border-color: transparent;
     color: #FFFFFF;
-    &:hover {
-      background-color: #388AFA;
-      border-color: #388AFA;
-    }
     &.disabled,
     &.disabled:hover {
       background-color: #F6F6F6;

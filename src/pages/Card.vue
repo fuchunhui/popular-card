@@ -15,7 +15,7 @@ let layerCanvas = document.createElement('canvas');
 
 let width = 100;
 let height = 100;
-const TARGET_PERCENT = 75;
+const TARGET_PERCENT = 70;
 
 const img = new Image();
 
@@ -234,6 +234,7 @@ onMounted(() => {
   makeLayer();
   watchLayer();
 });
+
 </script>
 
 <template>
