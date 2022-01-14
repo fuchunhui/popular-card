@@ -1,4 +1,4 @@
-import initSqlJs, {ParamsObject} from 'sql.js';
+import initSqlJs, {ParamsObject, Database} from 'sql.js';
 
 export const STORY_TABLE = 'STORY';
 export const TEXT_TABLE = 'TEXT';
@@ -8,14 +8,19 @@ export const MYSTERY_TABLE = 'MYSTERY';
 const getPath = './db/'; // import.meta.env.VITE_SQL_DOMAIN
 const DB_PATH = './db/popular.db';
 
-const SQL = await initSqlJs({
-  locateFile: (file: string) => `${getPath}${file}`
-});
-const buffer: any = await fetch(DB_PATH).then(res => res.arrayBuffer());
-const db = new SQL.Database(new Uint8Array(buffer));
+let db: any = null;
+
+const initDB = async (): Promise<string> => {
+  const SQL = await initSqlJs({
+    locateFile: (file: string) => `${getPath}${file}`
+  });
+  const buffer: any = await fetch(DB_PATH).then(res => res.arrayBuffer());
+  db = new SQL.Database(new Uint8Array(buffer));
+  return Promise.resolve('load database success');
+};
 
 const getDB = () => {
-  return db;
+  return db as Database;
 };
 
 const getDataByColumn = (value: string, column = 'title'): ParamsObject => {
@@ -34,6 +39,7 @@ const getRandom = (tableName = MYSTERY_TABLE, columns = '*'): ParamsObject => {
 };
 
 export {
+  initDB,
   getDataByColumn,
   getRandom
 };
