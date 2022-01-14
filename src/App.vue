@@ -12,7 +12,6 @@ import Card from './pages/Card.vue';
 
 <style lang="less">
 @import url('src/assets/css/mixins.less');
-@width: 0%;
 @height: 140px;
 
 #app {
@@ -20,8 +19,9 @@ import Card from './pages/Card.vue';
   height: 100%;
   color: #d9c58e;
   background: #f51d2a;
+
   .container {
-    width: calc(100% - @width);
+    width: 100%;
     height: 100%;
     margin: 0 auto;
     padding: 10px;
@@ -32,6 +32,11 @@ import Card from './pages/Card.vue';
   }
   .card {
     height: calc(100% - @height);
+  }
+  @media screen and (min-width: 800px) {
+    .container {
+      width: 60%;
+    }
   }
 }
 </style>
