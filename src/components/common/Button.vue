@@ -28,6 +28,7 @@ defineProps({
 .popular-button {
   min-width: 64px;
   height: 32px;
+  padding: 1px 2px;
   background-color: #FFFFFF;
   border: 1px solid #D9D9D9;
   border-radius: 4px;

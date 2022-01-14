@@ -241,8 +241,8 @@ onMounted(() => {
     <div class="card-btn">
       <popular-button u="primary" label="垃圾" @click="comment"/>
       <popular-button u="primary" label="点赞" @click="encourage"/>
-      <popular-button u="primary" label="保存" @click="save"/>
       <popular-button u="primary" label="再来一次？" @click="refresh"/>
+      <popular-button u="primary" label="保存" @click="save"/>
     </div>
     <div class="card-canvas" ref="cardCanvas">
       <canvas ref="canvasRef"/>
