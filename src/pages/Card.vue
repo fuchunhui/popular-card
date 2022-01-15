@@ -8,9 +8,10 @@ import {download} from '../utils/download';
 import {BLOG_URL, TOP_IMAGE} from '../config/index';
 
 const cardCanvas = ref<HTMLCanvasElement | null>(null);
-const canvasRef = ref<HTMLCanvasElement | null>(null);
+const containerRef = ref<HTMLCanvasElement | null>(null);
 const layerRef = ref<HTMLCanvasElement | null>(null);
 let canvas = document.createElement('canvas');
+let containerCanvas = document.createElement('canvas');
 let layerCanvas = document.createElement('canvas');
 
 let width = 100;
@@ -29,9 +30,12 @@ let point: Point = {
 
 const makeCanvas = (story: Story) => {
   img.onload = async () => {
-    canvas = canvasRef.value as HTMLCanvasElement;
-    canvas.width = width;
-    canvas.height = height;
+    containerCanvas = containerRef.value as HTMLCanvasElement;
+    containerCanvas.width = width;
+    containerCanvas.height = height;
+
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
 
     let rw = img.naturalWidth;
     let rh = img.naturalHeight;
@@ -50,7 +54,9 @@ const makeCanvas = (story: Story) => {
     const x = Math.floor(mobile ? offsetX / 2 : Math.random() * offsetX);
     const y = Math.floor(mobile ? offsetY / 2 : Math.random() * offsetY);
 
-    renderImage(story, x, y, rw, rh);
+    renderImage(story);
+    const ctx = containerCanvas.getContext('2d') as CanvasRenderingContext2D;
+    ctx.drawImage(canvas, x, y, rw, rh);
   };
 
   img.onerror = err => {
@@ -69,16 +75,13 @@ const makeLayer = () => {
   showLayer.value = true;
 };
 
-const renderImage = (story: Story, x = 0, y = 0, width = 0, height = 0) => {
+const renderImage = (story: Story) => {
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-  ctx.drawImage(img, x, y, width, height);
+  ctx.drawImage(img, 0, 0);
 
   const {special, text} = story;
   if (!special) {
-    const options = {...story};
-    options.x = (options.x as number) + x;
-    options.y = (options.y as number) + y;
-    fillText(ctx, width, text || '', options as FillText);
+    fillText(ctx, canvas.width, text || '', story as FillText);
   }
 };
 
@@ -87,9 +90,8 @@ const renderLayer = (ctx: CanvasRenderingContext2D) => {
   ctx.fillStyle = '#D9C58E';
   ctx.fillRect(0, 0, width, height);
   ctx.font = '48px sans-serif';
-  ctx.fillStyle = '#f3f2e3';
+  ctx.fillStyle = '#F3F2E3';
   ctx.textAlign = 'center';
-  ctx.lineWidth = 50;
   ctx.fillText('刮 我 中 表 情 包', width / 2, height / 2);
   ctx.restore();
 };
@@ -254,7 +256,7 @@ onMounted(() => {
       <popular-button u="primary" label="保存" @click="save"/>
     </div>
     <div class="card-canvas" ref="cardCanvas">
-      <canvas ref="canvasRef"/>
+      <canvas ref="containerRef"/>
       <canvas
         v-show="showLayer"
         ref="layerRef"
