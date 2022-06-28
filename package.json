@@ -21,6 +21,7 @@
     "vue-router": "^4.0.16"
   },
   "devDependencies": {
+    "@types/babel__traverse": "^7.17.1",
     "@types/estree": "^0.0.52",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.30.0",
