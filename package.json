@@ -3,11 +3,13 @@
   "version": "1.1.0",
   "description": "Hey, hey, hey",
   "main": "index.ts",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
     "deploy": "",
+    "prepare": "husky install",
     "release": "node scripts/release.js",
     "commitlint": "node scripts/verify-commit.js"
   },
